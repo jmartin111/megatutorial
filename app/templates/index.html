@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Hello {{ user }}</h1><br>
+    {% for post in posts %}
+        <div>
+            <p>
+                <h2>Subject: {{ post.title }}</h2>
+                <h3 style="font-style: italic;">{{ post.author.username }}</h3>
+                {{ post.body }}
+                {% if post %}
+                    <hr>
+                {% endif %}
+            </p>
+        </div>
+    {% endfor %}
+{% endblock content %}
