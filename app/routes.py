@@ -1,8 +1,9 @@
 #! .venv/bin/python
 
+import math
 from flask import render_template, flash, redirect, url_for
 from app import blog
-from app.forms import LoginForm, DummyForm
+from app.forms import LoginForm
 
 @blog.route('/')
 @blog.route('/index')
