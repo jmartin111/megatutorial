@@ -1,4 +1,3 @@
 .flaskenv
 .venv
-config.py
 __pycache__/
