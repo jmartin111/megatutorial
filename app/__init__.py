@@ -14,7 +14,8 @@ blog.config.from_object(BlogConfig)
 # register extensions
 db = SQLAlchemy(blog)
 migrate = Migrate(blog, db)
-login = LoginManager(blog)
+loginmgr = LoginManager(blog)
+loginmgr.login_view = 'login'
 
 # import here to avoid circular dependencies
 from app import routes, models
