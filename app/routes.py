@@ -81,6 +81,19 @@ def login():
     return render_template('login.html', title='SIgn In', form=form)
 
 
+@blog.route('/user/<username>')
+@login_required
+def user(username):
+    user = db.first_or_404(sa.select(User).where(User.username == username))
+
+    posts = [
+        {'author': user, 'body': 'test post 1'},
+        {'author': user, 'body': 'test post 2'}
+    ]
+
+    return render_template('user.html', user=user, posts=posts)
+
+
 @blog.route('/logout')
 def logout():
     logout_user()
