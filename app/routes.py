@@ -1,12 +1,13 @@
 #! .venv/bin/python
 
+from curses.ascii import US
 import sqlalchemy as sa
 
 from flask import render_template, flash, redirect, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 
 from app import blog, db
-from app.forms import LoginForm
+from app.forms import LoginForm, RegistrationForm
 from app.models import User
 
 from urllib.parse import urlsplit
@@ -40,6 +41,21 @@ def index():
                            title=meta['title'],
                            user=meta['username'], 
                            posts=posts)
+
+
+@blog.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm()
+    if current_user.is_authenticated:
+        return(redirect(url_for('index')))
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash(f'User {user.username} successfully registered')
+        return redirect(url_for('login'))
+    return render_template('register.html', title='Register', form=form)
 
 
 @blog.route('/login', methods=['GET', 'POST'])
