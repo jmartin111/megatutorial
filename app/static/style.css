@@ -1,4 +1,4 @@
-input {
-    background-color: slategray;
-    color: chartreuse;
+input, textarea {
+    background-color:darkslategray;
+    color: hotpink;
 }
