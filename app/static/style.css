@@ -2,3 +2,7 @@ input, textarea {
     background-color:darkslategray;
     color: hotpink;
 }
+
+.active_link {
+    background-color:cornflowerblue;
+}

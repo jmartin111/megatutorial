@@ -1,0 +1,15 @@
+{% macro nav_link(endpoint, link_label, username=None) %}
+    {% if request.endpoint.endswith(endpoint) %}
+        {% if username %}
+            <a class="active_link" href="{{ url_for(endpoint, username=username) }}">{{link_label}}</a>
+        {% else %}
+            <a class="active_link" href="{{ url_for(endpoint, username=username) }}">{{link_label}}</a>
+        {% endif %}
+    {% else %}
+        {% if username %}
+            <a href="{{ url_for(endpoint, username=username) }}">{{link_label}}</a>
+        {% else %}
+            <a href="{{ url_for(endpoint, username=username) }}">{{link_label}}</a>
+        {% endif %}
+    {% endif %}
+{% endmacro %}
