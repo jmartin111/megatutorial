@@ -18,4 +18,4 @@ loginmgr = LoginManager(blog)
 loginmgr.login_view = 'login'
 
 # import here to avoid circular dependencies
-from app import routes, models
+from app import routes, models, errors
