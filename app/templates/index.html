@@ -1,25 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-    <table class="compact-table">
-        <tr>
-            <td>
-                <div class="user-greeting">
-                    <h1>Hello {{ current_user.username }}</h1>
-                    <img class="user-avatar" src="{{ current_user.avatar(32) }}" alt="User avatar">
-                </div>
-            </td>
-        </tr>
-    </table>
-    {% for post in posts %}
-        <div>
-            <p>
-                <h2>Subject: {{ post.title }}</h2>
-                <h3 style="font-style: italic;">{{ post.author.username }}</h3>
-                {{ post.body }}
-                {% if post %}
-                    <hr>
-                {% endif %}
-            </p>
-        </div>
-    {% endfor %}
+    <div class="user-greeting">
+        <h1>Hello {{ current_user.username }}</h1>
+        <span style="padding-top: 8px;"><img src="{{ current_user.avatar(32) }}" alt="User avatar for {{ current_user.username }}"></span>
+    </div>
+    <div class="posts-section">
+        {% for post in posts %}
+            {% include '_post.html' %}
+        {% endfor %}
+    </div>
 {% endblock content %}

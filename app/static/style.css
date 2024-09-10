@@ -7,14 +7,17 @@ body {
     background: linear-gradient(90deg, rgba(1,76,54,1) 13%, rgba(1,170,189,1) 74%);
 }
 
-.content {
-    display: flexbox;
-    padding-bottom: 100%;
-    border: rgb(108, 110, 107) solid 3px;
+.user-greeting {
+    display: flex;
+    flex-direction: row;
+    gap: 7px;
 }
 
-.user-post-table td {
-    padding: 5px;
+.content {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 100%;
+    border: rgb(108, 110, 107) solid 3px;
 }
 
 input, textarea {
@@ -41,19 +44,41 @@ input, textarea {
     margin: 0 5px;
 }
 
-/* all this for an index header */
-.compact-table {
-    border-collapse: collapse;
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
 }
-.compact-table td {
-    padding: 0;
-    vertical-align: middle;
+
+.user-info {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
 }
-.user-greeting {
+
+.user-avatar {
+    margin-right: 20px;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.posts-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 10px;
+}
+
+.post {
     display: flex;
     align-items: center;
-    margin: 10px 0; /* Adjust this value to control space above and below */
+    gap: 10px;
 }
-.user-avatar {
-    margin-left: 15px;
+
+.post-content {
+    display: flex;
+    flex-direction: column;
 }

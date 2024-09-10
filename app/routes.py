@@ -2,6 +2,7 @@
 
 from crypt import methods
 from datetime import datetime, timezone
+
 from flask_migrate import current
 import sqlalchemy as sa
 
@@ -25,32 +26,14 @@ def before_request():
 @blog.route('/index')
 @login_required
 def index():
-    meta = {
-        'username': 'jeff',
-        'title': 'index'
-        }
+    # get the current logged in user avatar as a placeholder
+    user = db.session.scalar(sa.select(User).where(User.username == current_user.username))
     posts = [
-        {
-            'author': {'username': 'jeff'},
-            'title': 'one',
-            'body': 'ipsum delorium, libyans have plutonium!!'
-        },
-        {
-            'author': {'username': 'some fool'},
-            'title': 'two',
-            'body': 'jesus saves your everlasting soul'
-        },
-        {
-            'author': {'username': 'jeff'},
-            'title': 'three',
-            'body': 'no he does not because that is just silly'
-        },
+        {'author': user, 'body': 'test post 1'},
+        {'author': user, 'body': 'test post 2'}
     ]
-    return render_template('index.html',
-                           title=meta['title'],
-                           user=meta['username'], 
-                           posts=posts,
-                           )
+
+    return render_template('index.html', posts=posts)
 
 
 @blog.route('/register', methods=['GET', 'POST'])
@@ -95,7 +78,6 @@ def login():
 @login_required
 def user(username):
     user = db.first_or_404(sa.select(User).where(User.username == username))
-
     posts = [
         {'author': user, 'body': 'test post 1'},
         {'author': user, 'body': 'test post 2'}
@@ -117,6 +99,7 @@ def edit_profile():
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
+        
     return render_template('edit_profile.html', title='Edit Profile',
                            form=form)
 
