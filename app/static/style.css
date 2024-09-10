@@ -1,8 +1,48 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+}
+
+body {
+background: linear-gradient(90deg, rgba(0,59,145,1) 23%, rgba(0,47,115,1) 63%, rgba(2,0,36,1) 100%);
+}
+
 input, textarea {
     background-color:grey;
     color: black;
 }
 
 .active_link {
-    background-color:cornflowerblue;
+    background-color: rgba(0, 34, 255, 0.75);
+    padding: 2px;
+}
+
+.nav {
+    display: flex;
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+    padding: 20px;
+    background: linear-gradient(90deg, rgba(150,189,1,1) 23%, rgba(98,124,0,1) 63%, rgba(37,46,0,1) 100%);
+}
+
+/* Add this to create some space between navbar items */
+.nav > * {
+    margin: 0 5px;
+}
+
+/* all this for an index header */
+.compact-table {
+    border-collapse: collapse;
+}
+.compact-table td {
+    padding: 0;
+    vertical-align: middle;
+}
+.user-greeting {
+    display: flex;
+    align-items: center;
+    margin: 10px 0; /* Adjust this value to control space above and below */
+}
+.user-avatar {
+    margin-left: 15px;
 }

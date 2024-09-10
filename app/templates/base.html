@@ -10,7 +10,7 @@
       <link rel="stylesheet", href="{{ url_for('static', filename='style.css') }}">
     </head>
     <body>
-        <div>
+        <div class="nav">
           Microblog:
           {{ nav_link('index', 'Home') }}
           {% if current_user.is_anonymous %}
