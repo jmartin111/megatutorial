@@ -1,5 +1,6 @@
 #! .venv/bin/python
 
+from flask import flash
 import sqlalchemy as sa
 
 from flask_wtf import FlaskForm
@@ -35,6 +36,19 @@ class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     about_me = TextAreaField('About Me', validators=[Length(min=0, max=140)])
     submit = SubmitField('Submit')
+
+    def __init__(self, current_username, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.current_username = current_username
+
+    def validate_username(self, username):
+        if username.data != self.current_username:
+            user = db.session.scalar(sa.select(User).where(
+                                     User.username == username.data))
+            if user is not None:
+                blog.logger.info('A user tried to change their uname to an existing user')
+                # flash(f"Username [{user.username}] exists. Select something else")
+                raise ValueError(f"Username [{user.username}] exists. Select something else")
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
