@@ -4,7 +4,17 @@
 }
 
 body {
-background: linear-gradient(90deg, rgba(0,59,145,1) 23%, rgba(0,47,115,1) 63%, rgba(2,0,36,1) 100%);
+    background: linear-gradient(90deg, rgba(1,76,54,1) 13%, rgba(1,170,189,1) 74%);
+}
+
+.content {
+    display: flexbox;
+    padding-bottom: 100%;
+    border: rgb(108, 110, 107) solid 3px;
+}
+
+.user-post-table td {
+    padding: 5px;
 }
 
 input, textarea {
@@ -22,7 +32,8 @@ input, textarea {
     justify-content: center; /* Center items horizontally */
     align-items: center; /* Center items vertically */
     padding: 20px;
-    background: linear-gradient(90deg, rgba(150,189,1,1) 23%, rgba(98,124,0,1) 63%, rgba(37,46,0,1) 100%);
+    background: linear-gradient(90deg, rgba(2,130,92,1) 13%, rgba(1,189,67,1) 70%);
+    border: rgb(150, 177, 136) solid 3px;
 }
 
 /* Add this to create some space between navbar items */
