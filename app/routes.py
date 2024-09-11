@@ -48,7 +48,7 @@ def register():
         db.session.commit()
         flash(f'User {user.username} successfully registered')
         return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form)
+    return render_template('auth/register.html', title='Register', form=form)
 
 
 @blog.route('/login', methods=['GET', 'POST'])
@@ -71,7 +71,7 @@ def login():
         if not next_page or urlsplit(next_page).netloc != '':
             next_page = url_for('index')
         return redirect(next_page)
-    return render_template('login.html', title='Sign In', form=form)
+    return render_template('auth/login.html', title='Sign In', form=form)
 
 
 @blog.route('/user/<username>')
@@ -83,7 +83,7 @@ def user(username):
         {'author': user, 'body': 'test post 2'}
     ]
 
-    return render_template('user.html', title='Profile', user=user, posts=posts)
+    return render_template('user/user.html', title='Profile', user=user, posts=posts)
 
 
 @blog.route('/edit_profile', methods=['GET', 'POST'])
@@ -100,8 +100,12 @@ def edit_profile():
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
         
-    return render_template('edit_profile.html', title='Edit Profile',
+    return render_template('user/edit_profile.html', title='Edit Profile',
                            form=form)
+
+@blog.route('/new_post', methods=['GET', 'POST'])
+def new_post():
+    return(render_template('user/new_post.html'))
 
 
 @blog.route('/logout')

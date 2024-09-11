@@ -1,4 +1,4 @@
-{% from '_nav_link.html' import nav_link with context %}
+{% from 'macros/_nav_link.html' import nav_link with context %}
 <!doctype html>
 <html>
     <head>
@@ -13,16 +13,21 @@
     </head>
     <body>
       <div>
-        <nav>
-          <div class="nav">
-            Microblog:
-            {{ nav_link('index', 'Home') }}
-            {% if current_user.is_anonymous %}
-              {{ nav_link('login', 'Sign In') }}
-            {% else %}
-              {{ nav_link('user', 'Profile', current_user.username) }}
-              {{ nav_link('logout', 'Log Out') }}
-            {% endif %}
+        <nav class="navbar bg-light">
+          <div class="container-fluid">
+            <ul class="navbar-nav">
+              <h2 style="font-family:'Times New Roman', Times, serif;">Bob Loblaw</h2>
+              <h3 style="font-family: cursive; font-style: oblique;">Law Blog</h3>
+              <li class="nav-item">{{ nav_link('index', 'Home') }}</li>
+              <li class="nav-item">
+                {% if current_user.is_anonymous %}
+                  {{ nav_link('login', 'Sign In') }}
+                {% else %}
+              </li>
+                <li class="nav-item">{{ nav_link('user', 'Profile', current_user.username) }}</li>
+                <li class="nav-item">{{ nav_link('logout', 'Log Out') }}</li>
+              {% endif %}
+            </ul>
           </div>
         </nav>
       </div>

@@ -4,7 +4,19 @@
 }
 
 body {
-    background: linear-gradient(90deg, rgba(1,76,54,1) 13%, rgba(1,170,189,1) 74%);
+    display: flex;
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(90deg, rgb(1, 11, 76) 13%, rgba(11, 11, 76, 0.452) 74%);
+}
+
+body > div:first-child {
+    display: flex;
+    flex-direction: column;
+}
+
+body > div:last-child {
+    flex-grow: 1;
 }
 
 .user-greeting {
@@ -13,11 +25,11 @@ body {
     gap: 7px;
 }
 
-.content {
+.content,
+.profile-container {
     display: flex;
     flex-direction: column;
-    padding-bottom: 100%;
-    border: rgb(108, 110, 107) solid 3px;
+    padding: 10px;
 }
 
 input, textarea {
@@ -30,46 +42,34 @@ input, textarea {
     padding: 2px;
 }
 
-.nav {
-    display: flex;
-    justify-content: center; /* Center items horizontally */
-    align-items: center; /* Center items vertically */
-    padding: 20px;
-    background: linear-gradient(90deg, rgba(2,130,92,1) 13%, rgba(1,189,67,1) 70%);
-    border: rgb(150, 177, 136) solid 3px;
-}
-
-/* Add this to create some space between navbar items */
-.nav > * {
-    margin: 0 5px;
-}
-
-.profile-container {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-}
-
 .user-info {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
-.user-avatar {
-    margin-right: 20px;
+.user-profile-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user-controls {
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
 }
 
 .user-details {
     display: flex;
     flex-direction: column;
+    padding-left: 10px;
 }
 
 .posts-section {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding-right: 10px;
+    gap: 7px;
 }
 
 .post {
@@ -81,4 +81,12 @@ input, textarea {
 .post-content {
     display: flex;
     flex-direction: column;
+}
+
+.navbar,
+.navbar-nav,
+.continer-fluid {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;;
 }
