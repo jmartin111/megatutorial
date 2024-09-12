@@ -7,7 +7,6 @@ body {
     display: flex;
     min-height: 100vh;
     margin: 0;
-    background: linear-gradient(90deg, rgb(1, 11, 76) 13%, rgba(11, 11, 76, 0.452) 74%);
 }
 
 body > div:first-child {
@@ -30,6 +29,7 @@ body > div:last-child {
     display: flex;
     flex-direction: column;
     padding: 10px;
+    background-color: rgb(10, 83, 68);
 }
 
 input, textarea {
