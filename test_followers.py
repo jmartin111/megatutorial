@@ -6,6 +6,7 @@ os.environ['SQLALCHEMY_DATABASE_URI'] = 'sqlite://'
 
 from datetime import datetime, timezone, timedelta
 import unittest
+import pytest
 from app import blog, db
 from app.models import User, Post
 
@@ -100,4 +101,4 @@ class UserModelCase(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main(verbosity=2)
+    pytest.main(['-vv'])

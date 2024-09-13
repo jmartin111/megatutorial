@@ -1,6 +1,5 @@
 #! .venv/bin/python
 
-from crypt import methods
 from datetime import datetime, timezone
 from flask_migrate import current
 import sqlalchemy as sa
