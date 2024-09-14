@@ -1,8 +1,10 @@
+/* Global Styles */
 * {
     font-family: Arial, Helvetica, sans-serif;
-    color: white;
+    color: rgb(24, 126, 106);
 }
 
+/* Layout */
 body {
     display: flex;
     min-height: 100vh;
@@ -18,34 +20,56 @@ body > div:last-child {
     flex-grow: 1;
 }
 
-.user-greeting {
+.sign-in,
+.register,
+.edit-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 75px 200px;
+    padding: 20px 0;
+    background-color: rgba(33, 37, 41, 0.80); /* copy BS5's .bg-dark class */
+}
+
+.sign-in-submit {
     display: flex;
     flex-direction: row;
-    gap: 7px;
+    align-items: center;
+    gap: 10px;
 }
 
 .content,
 .profile-container {
     display: flex;
     flex-direction: column;
+    height: 100vh;;
     padding: 10px;
-    background-color: rgb(10, 83, 68);
+    background-color: rgb(24, 126, 106);
 }
 
-input, textarea {
-    background-color:grey;
-    color: black;
+/* Navigation */
+.navbar,
+.navbar-nav,
+.continer-fluid {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
 }
 
-.active_link {
-    background-color: rgba(0, 34, 255, 0.75);
-    padding: 2px;
+/* User Profile */
+.user-greeting {
+    display: flex;
+    flex-direction: row;
+    gap: 7px;
 }
 
 .user-info {
     display: flex;
     align-items: flex-start;
     margin-bottom: 10px;
+    padding: 10px 10px;
+    background-color: rgba(33, 37, 41, 0.80); /* .bg-color again */
 }
 
 .user-profile-stack {
@@ -66,15 +90,20 @@ input, textarea {
     padding-left: 10px;
 }
 
+/* Posts */
 .posts-section {
     display: flex;
     flex-direction: column;
     gap: 7px;
+    overflow-y: auto;
+    max-height: 500px;
+    padding: 10px 10px;
+    background-color: rgba(33, 37, 41, 0.80);
 }
 
 .post {
     display: flex;
-    align-items: center;
+    align-items:flex-start;
     gap: 10px;
 }
 
@@ -83,10 +112,8 @@ input, textarea {
     flex-direction: column;
 }
 
-.navbar,
-.navbar-nav,
-.continer-fluid {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;;
+/* Form Elements */
+input, textarea {
+    background-color: grey;
+    color: black;
 }

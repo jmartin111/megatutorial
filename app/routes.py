@@ -13,6 +13,8 @@ from app import blog, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm
 from app.models import User
 
+from .mock_posts import get_posts
+
 from urllib.parse import urlsplit
 
 @blog.before_request
@@ -28,10 +30,7 @@ def before_request():
 def index():
     # get the current logged in user avatar as a placeholder
     user = db.session.scalar(sa.select(User).where(User.username == current_user.username))
-    posts = [
-        {'author': user, 'body': 'test post 1'},
-        {'author': user, 'body': 'test post 2'}
-    ]
+    posts = get_posts(user)
 
     return render_template('index.html', posts=posts)
 
@@ -78,10 +77,7 @@ def login():
 @login_required
 def user(username):
     user = db.first_or_404(sa.select(User).where(User.username == username))
-    posts = [
-        {'author': user, 'body': 'test post 1'},
-        {'author': user, 'body': 'test post 2'}
-    ]
+    posts = get_posts(user)
 
     return render_template('user/user.html', title='Profile', user=user, posts=posts)
 

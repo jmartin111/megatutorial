@@ -1,7 +1,7 @@
 <div class="post">
     <img src="{{ post.author.avatar(36) }}" alt="{{ post.author.username }}'s avatar">
-    <div class="post-content">
-        <span>{{ post.author.username }} says:</span>
-        <b>{{ post.body }}</b>
-    </div>
+        <div class="post-content">
+            <b>{{ post.author.username }} says:</b>
+            {{ post.body }}
+        </div>
 </div>

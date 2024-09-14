@@ -15,9 +15,9 @@ class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     password_confirm = PasswordField(
-        'Confirm Password', validators=[DataRequired(), EqualTo('password')]
-        )
-    submit = SubmitField('Register')
+        'Confirm Password', validators=[DataRequired(),
+                                        EqualTo('password', message='Password fields must match')])
+    submit = SubmitField('Register', render_kw={'class': 'btn btn-success'})
 
     def validate_username(self, username):
         user = db.session.scalar(sa.select(User).where(
@@ -35,7 +35,7 @@ class RegistrationForm(FlaskForm):
 class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     about_me = TextAreaField('About Me', validators=[Length(min=0, max=140)])
-    submit = SubmitField('Submit')
+    submit = SubmitField('Submit', render_kw={'class': 'btn btn-success'})
 
     def __init__(self, current_username, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -54,4 +54,4 @@ class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
-    submit = SubmitField('Sign In')
+    submit = SubmitField('Sign In', render_kw={'class': 'btn btn-success'})
