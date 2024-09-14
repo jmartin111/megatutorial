@@ -21,7 +21,11 @@
             <div class="d-grid gap-3">
               <a class="btn btn-outline-success" id="home" href="{{ url_for('index') }}#home">Home</a>
               <a class="btn btn-outline-success" id="profile" href="{{ url_for('user', username=current_user.username) }}#profile">Profile</a>
-              <a class="btn btn-outline-success" id="logout" href="{{ url_for('logout') }}#logout">Sign Out</a>
+              {% if current_user.is_anonymous %}
+              <a class="btn btn-outline-success" id="logout" href="{{ url_for('logout') }}#logout">Sign In</a>
+              {% else %}
+                <a class="btn btn-outline-success" id="logout" href="{{ url_for('logout') }}#logout">Sign Out</a>
+              {% endif %}
             </div>
           </div>
         </nav>
