@@ -16,7 +16,7 @@ from config import BlogConfig, DevBlogConfig
 
 # define and config the app
 blog = Flask(__name__)
-blog.config.from_object(DevBlogConfig)
+blog.config.from_object(BlogConfig)
 
 # register extensions
 db = SQLAlchemy(blog)

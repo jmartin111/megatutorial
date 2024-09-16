@@ -1,38 +1,29 @@
 #! .venv/bin/python
 
-# sets up a temporary DB in RAM
-import os
-os.environ['SQLALCHEMY_DATABASE_URI'] = 'sqlite://'
-
-from datetime import datetime, timezone, timedelta
-import unittest
-import pytest
-from app import blog, db
-from app.models import User, Post
-
+from . import *
 
 class UserModelCase(unittest.TestCase):
     def setUp(self):
-        self.app_context = blog.app_context()
-        self.app_context.push()
-        db.create_all()
+        self.app_context = setup_test_environment()
+        
 
     def tearDown(self):
-        db.session.remove()
-        db.drop_all()
-        self.app_context.pop()
+        teardown_test_environment(self.app_context)
+        
 
     def test_password_hashing(self):
         u = User(username='susan', email='susan@example.com')
         u.set_password('cat')
         self.assertFalse(u.check_password('dog'))
         self.assertTrue(u.check_password('cat'))
+        
 
     def test_avatar(self):
         u = User(username='john', email='john@example.com')
         self.assertEqual(u.avatar(128), ('https://www.gravatar.com/avatar/'
                                          'd4c74594d841139328695756648b6bd6'
                                          '?d=identicon&s=128'))
+                                         
 
     def test_follow(self):
         u1 = User(username='john', email='john@example.com')
@@ -60,6 +51,7 @@ class UserModelCase(unittest.TestCase):
         self.assertFalse(u1.is_following(u2))
         self.assertEqual(u1.following_count(), 0)
         self.assertEqual(u2.followers_count(), 0)
+        
 
     def test_follow_posts(self):
         # create four users
@@ -98,7 +90,3 @@ class UserModelCase(unittest.TestCase):
         self.assertEqual(f2, [p2, p3])
         self.assertEqual(f3, [p3, p4])
         self.assertEqual(f4, [p4])
-
-
-if __name__ == '__main__':
-    pytest.main(['-vv'])
