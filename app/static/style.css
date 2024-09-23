@@ -1,59 +1,119 @@
+/* Global Styles */
 * {
     font-family: Arial, Helvetica, sans-serif;
-    color: white;
+    color: rgb(208, 229, 133);
 }
 
+/* Layout */
 body {
-    background: linear-gradient(90deg, rgba(1,76,54,1) 13%, rgba(1,170,189,1) 74%);
-}
-
-.content {
-    display: flexbox;
-    padding-bottom: 100%;
-    border: rgb(108, 110, 107) solid 3px;
-}
-
-.user-post-table td {
-    padding: 5px;
-}
-
-input, textarea {
-    background-color:grey;
-    color: black;
-}
-
-.active_link {
-    background-color: rgba(0, 34, 255, 0.75);
-    padding: 2px;
-}
-
-.nav {
     display: flex;
-    justify-content: center; /* Center items horizontally */
-    align-items: center; /* Center items vertically */
-    padding: 20px;
-    background: linear-gradient(90deg, rgba(2,130,92,1) 13%, rgba(1,189,67,1) 70%);
-    border: rgb(150, 177, 136) solid 3px;
+    min-height: 100vh;
+    margin: 0;
 }
 
-/* Add this to create some space between navbar items */
-.nav > * {
-    margin: 0 5px;
+body > div:first-child {
+    display: flex;
+    flex-direction: column;
 }
 
-/* all this for an index header */
-.compact-table {
-    border-collapse: collapse;
+body > div:last-child {
+    flex-grow: 1;
 }
-.compact-table td {
-    padding: 0;
-    vertical-align: middle;
+
+.sign-in,
+.register,
+.edit-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 75px 200px;
+    padding: 20px 0;
+    background-color: rgba(33, 37, 41, 0.80); /* copy BS5's .bg-dark class */
 }
+
+.sign-in-submit {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.content,
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;;
+    padding: 10px;
+    background-color: rgb(24, 126, 106);
+}
+
+/* Navigation */
+.navbar,
+.navbar-nav,
+.continer-fluid {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+/* User Profile */
 .user-greeting {
     display: flex;
-    align-items: center;
-    margin: 10px 0; /* Adjust this value to control space above and below */
+    flex-direction: row;
+    gap: 7px;
 }
-.user-avatar {
-    margin-left: 15px;
+
+.user-info {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    padding: 10px 10px;
+    background-color: rgba(33, 37, 41, 0.80); /* .bg-color again */
+}
+
+.user-profile-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user-controls {
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+}
+
+/* Posts */
+.posts-section {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    overflow-y: auto;
+    max-height: 500px;
+    padding: 10px 10px;
+    background-color: rgba(33, 37, 41, 0.80);
+}
+
+.post {
+    display: flex;
+    align-items:flex-start;
+    gap: 10px;
+}
+
+.post-content {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Form Elements */
+input, textarea {
+    background-color: grey;
+    color: black;
 }

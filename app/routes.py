@@ -1,6 +1,7 @@
 #! .venv/bin/python
 
 from datetime import datetime, timezone
+
 from flask_migrate import current
 import sqlalchemy as sa
 
@@ -10,6 +11,8 @@ from flask_login import current_user, login_required, login_user, logout_user
 from app import blog, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm
 from app.models import User
+
+from .mock_posts import get_posts
 
 from urllib.parse import urlsplit
 
@@ -24,32 +27,11 @@ def before_request():
 @blog.route('/index')
 @login_required
 def index():
-    meta = {
-        'username': 'jeff',
-        'title': 'index'
-        }
-    posts = [
-        {
-            'author': {'username': 'jeff'},
-            'title': 'one',
-            'body': 'ipsum delorium, libyans have plutonium!!'
-        },
-        {
-            'author': {'username': 'some fool'},
-            'title': 'two',
-            'body': 'jesus saves your everlasting soul'
-        },
-        {
-            'author': {'username': 'jeff'},
-            'title': 'three',
-            'body': 'no he does not because that is just silly'
-        },
-    ]
-    return render_template('index.html',
-                           title=meta['title'],
-                           user=meta['username'], 
-                           posts=posts,
-                           )
+    # get the current logged in user avatar as a placeholder
+    user = db.session.scalar(sa.select(User).where(User.username == current_user.username))
+    posts = get_posts(user)
+
+    return render_template('index.html', posts=posts)
 
 
 @blog.route('/register', methods=['GET', 'POST'])
@@ -64,7 +46,7 @@ def register():
         db.session.commit()
         flash(f'User {user.username} successfully registered')
         return redirect(url_for('login'))
-    return render_template('register.html', title='Register', form=form)
+    return render_template('auth/register.html', title='Register', form=form)
 
 
 @blog.route('/login', methods=['GET', 'POST'])
@@ -87,20 +69,16 @@ def login():
         if not next_page or urlsplit(next_page).netloc != '':
             next_page = url_for('index')
         return redirect(next_page)
-    return render_template('login.html', title='Sign In', form=form)
+    return render_template('auth/login.html', title='Sign In', form=form)
 
 
 @blog.route('/user/<username>')
 @login_required
 def user(username):
     user = db.first_or_404(sa.select(User).where(User.username == username))
+    posts = get_posts(user)
 
-    posts = [
-        {'author': user, 'body': 'test post 1'},
-        {'author': user, 'body': 'test post 2'}
-    ]
-
-    return render_template('user.html', title='Profile', user=user, posts=posts)
+    return render_template('user/user.html', title='Profile', user=user, posts=posts)
 
 
 @blog.route('/edit_profile', methods=['GET', 'POST'])
@@ -116,8 +94,13 @@ def edit_profile():
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
-    return render_template('edit_profile.html', title='Edit Profile',
+        
+    return render_template('user/edit_profile.html', title='Edit Profile',
                            form=form)
+
+@blog.route('/new_post', methods=['GET', 'POST'])
+def new_post():
+    return(render_template('user/new_post.html'))
 
 
 @blog.route('/logout')

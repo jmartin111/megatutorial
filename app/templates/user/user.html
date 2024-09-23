@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script>
+    button = document.getElementById("delete_profile")
+    deleteMe = function(msg) {
+        alert(msg)
+    }
+</script>
+<div class="profile-container">
+    <div class="user-info">
+        <div class="user-profile-stack">
+            <img src="{{ user.avatar(128) }}" alt="{{ user.username }}'s avatar">
+            <div class="user-controls">
+                <a href="{{ url_for('new_post') }}"><button class="btn btn-sm btn-outline-success">New Post</button></a>
+                <a href="{{ url_for('edit_profile') }}"><button class="btn btn-sm btn-outline-info">Edit Profile</button></a>
+            </div>
+            <div class="d-grid">
+                <button id="delete_profile"
+                        class="btn btn-sm btn-outline-danger"
+                        onclick="deleteMe('ARE YOU SURE? \nTodo: make this a modal')">
+                        Delete Profile
+                </button>
+            </div>       
+        </div>
+        <div class="user-details">
+            <h3>{{ user.username }}</h3>
+            {% if user.about_me %}
+                <p>{{ user.about_me }}</p>
+            {% endif %}
+            {% if user.last_seen %}
+                <p>Last seen on: {{ user.last_seen }}</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="posts-section">
+        <h2>{{ user.username }}'s Posts:</h2>
+        {% for post in posts %}
+            <hr>
+            {% include 'macros/_post.html' %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
