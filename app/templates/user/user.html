@@ -44,10 +44,11 @@
             <p>{{ user.followers_count() }} followers, {{ user.following_count() }} following.</p>
         </div>
     </div>
-    <div class="posts-section">
+    <div>
         <h2>{{ user.username }}'s Posts:</h2>
+    </div>
+    <div class="posts-section">
         {% for post in posts %}
-            <hr>
             {% include 'macros/_post.html' %}
         {% endfor %}
     </div>
