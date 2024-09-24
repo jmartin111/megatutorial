@@ -31,11 +31,13 @@
         </nav>
       </div>
       <div class="content">
-        {% with messages = get_flashed_messages() %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
-            <ul>
-              {% for msg in messages %}<li>{{ msg }}</li>{% endfor %}
-            </ul>
+              {% for category, msg in messages %}
+                <div class="alert {{category}}" role="alert">
+                  {{ msg }}
+                </div>
+              {% endfor %}
           {% endif %}
         {% endwith %}
         {% block content %}{% endblock %}

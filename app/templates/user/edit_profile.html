@@ -7,20 +7,24 @@
             {{ form.hidden_tag() }}
             <p>
                 {{ form.username.label }}<br>
-                {{ form.username(size=32) }}
+                {{ form.username(size=32) }}<br>
                 {% for error in form.username.errors %}
-                    <span style="color: red;">[{{ error }}]</span>
+                    <span style="color: red;">{{ error }}</span>
                 {% endfor %}
             </p>
             <p>
                 {{ form.about_me.label }}<br>
-                {{ form.about_me(cols=50, rows=4) }}
+                {{ form.about_me(cols=32, rows=5) }}
                 {% for error in form.about_me.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
             </p>
             <p>
-                {{ form.submit() }}
+                {{ form.submit() }} 
+                <!-- TODO: keep this aligned with the submit button and keep it 
+                 from submitting the form; only go back to profile
+                <a style="text-decoration: none;" href="{{ url_for('user', username=form.data.username) }}">
+                    <button class="btn btn-outline-success">Back to {{ form.data.username }}</button></a> -->
             </p>
         </form>
     </div>

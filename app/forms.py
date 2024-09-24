@@ -34,24 +34,25 @@ class RegistrationForm(FlaskForm):
 
 class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
-    about_me = TextAreaField('About Me', validators=[Length(min=0, max=140)])
+    about_me = TextAreaField('About me', validators=[Length(min=0, max=140)])
     submit = SubmitField('Submit', render_kw={'class': 'btn btn-outline-success'})
 
-    def __init__(self, current_username, *args, **kwargs):
+    def __init__(self, original_username, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.current_username = current_username
+        self.original_username = original_username
 
     def validate_username(self, username):
-        if username.data != self.current_username:
+        if username.data != self.original_username:
             user = db.session.scalar(sa.select(User).where(
-                                     User.username == username.data))
+                User.username == username.data))
             if user is not None:
-                blog.logger.info('A user tried to change their uname to an existing user')
-                # flash(f"Username [{user.username}] exists. Select something else")
-                raise ValueError(f"Username [{user.username}] exists. Select something else")
+                raise ValidationError('Please use a different username.')
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In', render_kw={'class': 'btn btn-outline-success'})
+
+class FollowForm(FlaskForm):
+    submit = SubmitField('Follow', render_kw={'class': 'btn btn-outline-success'})

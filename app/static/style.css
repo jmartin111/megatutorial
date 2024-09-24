@@ -1,5 +1,5 @@
 /* Global Styles */
-* {
+*{
     font-family: Arial, Helvetica, sans-serif;
     color: rgb(208, 229, 133);
 }
@@ -75,13 +75,39 @@ body > div:last-child {
 .user-profile-stack {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 3px;
 }
 
 .user-controls {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    margin-top: 10px;
     gap: 3px;
+    width: 100%;
+}
+
+.user-controls > * {
+    width: 100%;
+}
+
+.user-controls button,
+.user-controls a button,
+.user-controls form,
+.user-controls form input[type="submit"] {
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+}
+
+/* Ensure form button looks the same as other buttons */
+.user-controls form button {
+    margin: 0;
+    padding: 0.375rem 0.75rem;  /* Adjust if needed to match other buttons */
+}
+
+/* Override any max-width settings from Bootstrap if necessary */
+.user-controls .btn {
+    max-width: none;
 }
 
 .user-details {

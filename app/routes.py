@@ -1,15 +1,15 @@
 #! .venv/bin/python
 
+from crypt import methods
 from datetime import datetime, timezone
 
-from flask_migrate import current
 import sqlalchemy as sa
 
 from flask import render_template, flash, redirect, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 
 from app import blog, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, FollowForm
 from app.models import User
 
 from .mock_posts import get_posts
@@ -44,7 +44,7 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash(f'User {user.username} successfully registered')
+        flash(f'User {user.username} successfully registered', 'alert-success')
         return redirect(url_for('login'))
     return render_template('auth/register.html', title='Register', form=form)
 
@@ -61,7 +61,7 @@ def login():
             )
         if user is None or not user.check_password(form.password.data):
             # falied login
-            flash('Invalid username or password')
+            flash('Invalid username or password', 'alert-danger')
             return redirect(url_for('login'))
         # user checks out
         login_user(user, remember=form.remember_me.data)
@@ -78,7 +78,8 @@ def user(username):
     user = db.first_or_404(sa.select(User).where(User.username == username))
     posts = get_posts(user)
 
-    return render_template('user/user.html', title='Profile', user=user, posts=posts)
+    form = FollowForm()
+    return render_template('user/user.html', title='Profile', user=user, posts=posts, form=form)
 
 
 @blog.route('/edit_profile', methods=['GET', 'POST'])
@@ -89,18 +90,57 @@ def edit_profile():
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
         db.session.commit()
-        flash('Your changes have been saved.')
+        flash('Your changes have been saved.', 'alert-success')
         return redirect(url_for('edit_profile'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.about_me.data = current_user.about_me
         
-    return render_template('user/edit_profile.html', title='Edit Profile',
-                           form=form)
+    return render_template('user/edit_profile.html', title='Edit Profile', form=form)
+
 
 @blog.route('/new_post', methods=['GET', 'POST'])
 def new_post():
     return(render_template('user/new_post.html'))
+
+@blog.route('/follow/<username>/', methods=['POST'])
+@login_required
+def follow(username):
+    form = FollowForm()
+    if form.validate_on_submit:
+        user = db.session.scalar(sa.select(User).where(User.username == username))
+        if user is None:
+            flash(f'User {username} not found!' 'alert-warning')
+            return redirect(url_for('index'))
+        if user == current_user:
+            flash('You cannot follow yourself, you halibut', 'alert-warning')
+            return redirect(url_for('user', username=username))
+        current_user.follow(user)
+        db.session.commit()
+        flash(f'You are following {username}', 'alert-success')
+        return redirect(url_for('user', username=username))
+    else:
+        return redirect(url_for('index'))
+    
+
+@blog.route('/unfollow/<username>', methods=['POST'])
+@login_required
+def unfollow(username):
+    form = FollowForm()
+    if form.validate_on_submit:
+        user = db.session.scalar(sa.select(User).where(User.username == username))
+        if user is None:
+            flash(f'User {username} not found' 'alert-warning')
+            return redirect(url_for('index'))
+        if user == current_user:
+            flash('You cannot unfollow yourself!' 'alert-warning')
+            return redirect(url_for('user', username==username))
+        current_user.unfollow(user)
+        db.session.commit()
+        flash(f'You are not following {username}.', 'alert-success')
+        return redirect(url_for('user', username=username))
+    else:
+        return redirect(url_for('index'))
 
 
 @blog.route('/logout')
