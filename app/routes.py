@@ -1,6 +1,5 @@
 #! .venv/bin/python
 
-from crypt import methods
 from datetime import datetime, timezone
 
 import sqlalchemy as sa

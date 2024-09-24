@@ -17,7 +17,7 @@ from app.errors import not_found_error as e404
 from app.errors import server_error as e500
 
 def setup_test_environment():
-    blog.config['SECRET_KEY'] = 'o8374p827c4b2ixb74o9nz!@*7p8eodu'
+    # blog.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
     app_context = blog.app_context()
     app_context.push()
     db.create_all()
