@@ -1,9 +1,9 @@
 #! .venv/bin/python
 
 from datetime import datetime, timezone
-import re
 from turtle import title
 
+from flask_migrate import current
 import sqlalchemy as sa
 
 from flask import render_template, flash, redirect, request, url_for
@@ -12,8 +12,6 @@ from flask_login import current_user, login_required, login_user, logout_user
 from app import blog, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, FollowForm, PostForm
 from app.models import User, Post 
-
-from .mock_posts import get_posts
 
 from urllib.parse import urlsplit
 
@@ -29,7 +27,6 @@ def before_request():
 @login_required
 def index():
     form = PostForm()
-
     if form.validate_on_submit():
         post = Post(body=form.post.data, author=current_user)
         db.session.add(post)
@@ -107,8 +104,18 @@ def edit_profile():
 
 
 @blog.route('/new_post', methods=['GET', 'POST'])
+@login_required
 def new_post():
-    return(render_template('user/new_post.html'))
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(body=form.post.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post has been submitted', 'alert-success')
+        return redirect(url_for('user', username=current_user.username))
+    
+    return render_template('user/new_post.html', title='New Post', form=form)
+
 
 @blog.route('/follow/<username>/', methods=['POST'])
 @login_required
