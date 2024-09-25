@@ -5,19 +5,7 @@
         <span style="padding-top: 8px;"><img src="{{ current_user.avatar(32) }}" alt="User avatar for {{ current_user.username }}"></span>
     </div>
     {% if form %}
-        <div class="new-post">
-            <form action="" method="post">
-                {{ form.hidden_tag() }}
-                <p>
-                    {{ form.post.label }}<br>
-                    {{ form.post(cols=32, rows=4) }}<br>
-                    {% for error in form.post.errors  %}
-                        <span style="color: red">{{ error }}</span>
-                    {% endfor %}
-                </p>
-                <p>{{ form.submit() }}</p>
-            </form>
-        </div>        
+        {% include 'macros/_new_post_form.html' %}
     {% endif %}
     <div class="posts-section">
         {% for post in posts %}
