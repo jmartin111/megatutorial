@@ -1,13 +1,22 @@
 /* Global Styles */
 *{
     font-family: Arial, Helvetica, sans-serif;
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
 }
 
 /* Form Elements */
 input, textarea {
     background-color: grey;
     color: black;
+}
+
+/* .page-item {
+    border: 2px solid green;
+    background-color: transparent;
+} */
+
+::placeholder {
+    color: rgb(133, 183, 239);
 }
 
 /* Layout */
@@ -46,9 +55,8 @@ body > div:last-child {
     justify-content: center;
     border-radius: 10px;
     margin-bottom: 10px;
-    padding: 20px 20px;
+    padding: 10px 10px;
     background-image: url("./images/vecteezy_car-road-on-sea.jpg");
-    /* background-color: rgba(33, 37, 41, 0.80); */
 }
 
 .sign-in-submit {
@@ -80,6 +88,7 @@ body > div:last-child {
 .user-greeting {
     display: flex;
     flex-direction: row;
+    align-items: top;
     gap: 7px;
 }
 
@@ -90,7 +99,6 @@ body > div:last-child {
     padding: 10px 10px;
     border-radius: 10px;
     background-image: url("./images/vecteezy_car-road-on-sea.jpg");
-    /* background-color: rgba(33, 37, 41, 0.80); */
 }
 
 .user-profile-stack {
@@ -134,7 +142,7 @@ body > div:last-child {
 .user-details {
     display: flex;
     flex-direction: column;
-    padding-left: 105px;
+    padding-left: 15px;
 }
 
 /* Posts */
@@ -142,7 +150,7 @@ body > div:last-child {
     display: flex;
     flex-direction: column;
     gap: 7px;
-    overflow-y: auto;
+    /* overflow-y: auto; */
     max-height: 500px;
 }
 
@@ -153,7 +161,6 @@ body > div:last-child {
     padding: 10px;
     gap: 5px;
     background: linear-gradient(to right, rgb(21 6 62), rgb(178, 209, 242));
-    /* background-color: rgba(33, 37, 41, 0.792); */
 }
 
 .post-content {

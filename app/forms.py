@@ -62,7 +62,8 @@ class PostForm(FlaskForm):
                          render_kw={
                              'style': 'background-color: rgb(63 83 180);'
                              'border-radius: 10px;'
-                             'padding: 7px;',
+                             'padding: 7px;'
+                             'resize: none;',
                              'placeholder': 'Make your mark ...'
                         })
     submit = SubmitField('Post', render_kw={'class': 'btn btn-outline-success'})

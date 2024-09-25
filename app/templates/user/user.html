@@ -10,7 +10,7 @@
 <div class="profile-container">
     <div class="user-info">
         <div class="user-profile-stack">
-            <img src="{{ user.avatar(128) }}" alt="{{ user.username }}'s avatar">
+            <img src="{{ user.avatar(64) }}" alt="{{ user.username }}'s avatar">
                 <div class="user-controls">
                     {% if user == current_user %}
                         <a style="text-decoration: none;" href="{{ url_for('new_post') }}"><button class="btn btn-sm btn-outline-success">New Post</button></a>
@@ -41,11 +41,12 @@
             {% if user.last_seen %}
                 <p>Last seen on: {{ user.last_seen }}</p>
             {% endif %}
-            <p>{{ user.followers_count() }} followers, {{ user.following_count() }} following.</p>
+            <p>Followed by: {{ user.followers_count() }}<br>
+               Folowing: {{ user.following_count() }}</p>
         </div>
     </div>
     <div>
-        <h2>{{ user.username }}'s Posts:</h2>
+        <h3>my posts</h3>
     </div>
     <div class="posts-section">
         {% for post in posts %}

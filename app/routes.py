@@ -15,6 +15,8 @@ from app.models import User, Post
 
 from urllib.parse import urlsplit
 
+POSTS_PER_PAGE = blog.config['POSTS_PER_PAGE']
+
 @blog.before_request
 def before_request():
     if current_user.is_authenticated:
@@ -34,8 +36,19 @@ def index():
         flash('Your post has been submitted', 'alert-success')
         return redirect(url_for('index'))
     
-    posts = db.session.scalars(current_user.following_posts()).all()
-    return render_template('index.html', title='Home', posts=posts, form=form)
+    page = request.args.get('page', 1, type=int)
+    posts = db.paginate(current_user.following_posts(), page=page, per_page=POSTS_PER_PAGE, error_out=False)
+    
+    # build paginatinon
+    first_page = url_for('index', page=posts.first)
+    prev_page = url_for('index', page=posts.per_page) if posts.has_prev else None
+    next_page = url_for('index', page=posts.next_num) if posts.has_next else None
+    last_page = url_for('index', page=posts.last)
+    num_pages = [p+1 for p in range(posts.pages)]
+    
+    return render_template('index.html', title='Home', posts=posts.items, form=form,
+                            first_page=first_page, last_page=last_page,
+                            prev_page=prev_page, next_page=next_page, num_pages=num_pages)
 
 
 @blog.route('/register', methods=['GET', 'POST'])
@@ -160,8 +173,21 @@ def unfollow(username):
 @blog.route('/explore')
 @login_required
 def explore():
-    posts = db.session.scalars(sa.select(Post).order_by(Post.timestamp.desc()))
-    return render_template('index.html', title='Explore', posts=posts)
+    page = request.args.get('page', 1, type=int)
+    query = sa.select(Post).order_by(Post.timestamp.desc())
+    posts = db.paginate(query, page=page, per_page=POSTS_PER_PAGE, error_out=False)
+
+    # build pagination
+    first_page = url_for('index', page=posts.first)
+    prev_page = url_for('index', page=posts.prev_num) if posts.has_prev else None
+    next_page = url_for('index', page=posts.next_num) if posts.has_next else None
+    last_page = url_for('index', page=posts.last)
+    num_pages = [p+1 for p in range(posts.pages)]
+
+
+    return render_template('index.html', title='Explore', posts=posts.items,
+                            first_page=first_page, last_page=last_page,
+                            prev_page=prev_page, next_page=next_page, num_pages=num_pages)
 
 
 @blog.route('/logout')

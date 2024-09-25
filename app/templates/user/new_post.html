@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h3>New Post for User: {{ current_user.username }}</h3>
     {% if form %}
         {% include 'macros/_new_post_form.html' %}
     {% endif %}

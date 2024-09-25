@@ -15,6 +15,7 @@ class BlogConfig:
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_ADMINS = os.environ.get('MAIL_ADMINS')
+    POSTS_PER_PAGE = 4
 
 class DevBlogConfig(BlogConfig):
     DEBUG_LEVEL = os.environ.get('DEBUG_LEVEL')

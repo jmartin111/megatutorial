@@ -1,9 +1,12 @@
 <div class="new-post">
     <form action="" method="post">
         {{ form.hidden_tag() }}
+        <div class="user-greeting">
+            <h1>Hi {{ current_user.username }}</h1>
+            <span style="padding-top: 8px;"><img src="{{ current_user.avatar(32) }}" alt="User avatar for {{ current_user.username }}"></span>
+        </div>
         <p>
-            {{ form.post.label }}<br>
-            {{ form.post(cols=32, rows=4) }}<br>
+            {{ form.post(cols=48, rows=3) }}<br>
             {% for error in form.post.errors  %}
                 <span style="color: red">{{ error }}</span>
             {% endfor %}
