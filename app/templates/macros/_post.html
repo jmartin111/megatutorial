@@ -1,7 +1,9 @@
 <div class="post">
     <img src="{{ post.author.avatar(36) }}" alt="{{ post.author.username }}'s avatar">
         <div class="post-content">
-            <b>{{ post.author.username }} says:</b>
+            <a href="{{ url_for('user', username=post.author.username) }}">
+                <b>{{ post.author.username }}</b>
+            </a>
             {{ post.body }}
         </div>
 </div>

@@ -56,3 +56,12 @@ class LoginForm(FlaskForm):
 
 class FollowForm(FlaskForm):
     submit = SubmitField('Follow', render_kw={'class': 'btn btn-outline-success'})
+
+class PostForm(FlaskForm):
+    post = TextAreaField('Make Your Mark', validators=[DataRequired(), Length(min=1, max=140)],
+                         render_kw={
+                             'style': 'background-color: rgb(63 83 180);'
+                             'border-radius: 10px;'
+                             'padding: 7px;'
+                        })
+    submit = SubmitField('Post', render_kw={'class': 'btn btn-outline-success'})

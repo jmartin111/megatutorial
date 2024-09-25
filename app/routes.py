@@ -1,6 +1,8 @@
 #! .venv/bin/python
 
 from datetime import datetime, timezone
+import re
+from turtle import title
 
 import sqlalchemy as sa
 
@@ -8,8 +10,8 @@ from flask import render_template, flash, redirect, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 
 from app import blog, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm, FollowForm
-from app.models import User
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, FollowForm, PostForm
+from app.models import User, Post 
 
 from .mock_posts import get_posts
 
@@ -22,15 +24,21 @@ def before_request():
         db.session.commit()
 
 
-@blog.route('/')
-@blog.route('/index')
+@blog.route('/', methods=['GET', 'POST'])
+@blog.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    # get the current logged in user avatar as a placeholder
-    user = db.session.scalar(sa.select(User).where(User.username == current_user.username))
-    posts = get_posts(user)
+    form = PostForm()
 
-    return render_template('index.html', posts=posts)
+    if form.validate_on_submit():
+        post = Post(body=form.post.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post has been submitted', 'alert-success')
+        return redirect(url_for('index'))
+    
+    posts = db.session.scalars(current_user.following_posts()).all()
+    return render_template('index.html', title='Home', posts=posts, form=form)
 
 
 @blog.route('/register', methods=['GET', 'POST'])
@@ -75,7 +83,7 @@ def login():
 @login_required
 def user(username):
     user = db.first_or_404(sa.select(User).where(User.username == username))
-    posts = get_posts(user)
+    posts = db.session.scalars(sa.select(Post).where(Post.author == user).order_by(Post.timestamp.desc()))
 
     form = FollowForm()
     return render_template('user/user.html', title='Profile', user=user, posts=posts, form=form)
@@ -140,6 +148,13 @@ def unfollow(username):
         return redirect(url_for('user', username=username))
     else:
         return redirect(url_for('index'))
+    
+
+@blog.route('/explore')
+@login_required
+def explore():
+    posts = db.session.scalars(sa.select(Post).order_by(Post.timestamp.desc()))
+    return render_template('index.html', title='Explore', posts=posts)
 
 
 @blog.route('/logout')
