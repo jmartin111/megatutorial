@@ -10,10 +10,10 @@ input, textarea {
     color: black;
 }
 
-/* .page-item {
-    border: 2px solid green;
-    background-color: transparent;
-} */
+.page-item {
+    border: 3px solid rgb(125 140 181);
+    background-color: rgb(18, 39, 97);
+}
 
 ::placeholder {
     color: rgb(133, 183, 239);
@@ -70,7 +70,7 @@ body > div:last-child {
 .profile-container {
     display: flex;
     flex-direction: column;
-    height: 100vh;;
+    min-height: 100vh;;
     padding: 10px;
     background-color: rgb(134, 147, 168);
 }

@@ -170,12 +170,12 @@ def unfollow(username):
         return redirect(url_for('index'))
     
 
-@blog.route('/explore')
+@blog.route('/explore', methods=['GET'])
 @login_required
 def explore():
     page = request.args.get('page', 1, type=int)
     query = sa.select(Post).order_by(Post.timestamp.desc())
-    posts = db.paginate(query, page=page, per_page=POSTS_PER_PAGE, error_out=False)
+    posts = db.paginate(query, page=page, per_page=POSTS_PER_PAGE+2, error_out=False)
 
     # build pagination
     first_page = url_for('index', page=posts.first)
@@ -185,7 +185,7 @@ def explore():
     num_pages = [p+1 for p in range(posts.pages)]
 
 
-    return render_template('index.html', title='Explore', posts=posts.items,
+    return render_template('explore.html', title='Explore', posts=posts.items,
                             first_page=first_page, last_page=last_page,
                             prev_page=prev_page, next_page=next_page, num_pages=num_pages)
 
