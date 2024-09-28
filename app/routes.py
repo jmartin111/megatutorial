@@ -1,10 +1,7 @@
 #! .venv/bin/python
 
 from datetime import datetime, timezone
-from math import e
-from turtle import title
 
-from flask_migrate import current
 import sqlalchemy as sa
 
 from flask import render_template, flash, redirect, request, url_for

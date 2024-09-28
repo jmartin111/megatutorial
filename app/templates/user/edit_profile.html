@@ -5,27 +5,28 @@
         <h1>Edit Profile</h1>
         <form action="" method="post">
             {{ form.hidden_tag() }}
-            <p>
+            <div>
                 {{ form.username.label }}<br>
                 {{ form.username(size=32) }}<br>
                 {% for error in form.username.errors %}
                     <span style="color: red;">{{ error }}</span>
                 {% endfor %}
-            </p>
-            <p>
+            </div>
+            <div>
                 {{ form.about_me.label }}<br>
                 {{ form.about_me(cols=32, rows=5) }}
                 {% for error in form.about_me.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
-            </p>
-            <p>
+            </div>
+            <div>
                 {{ form.submit() }} 
-                <!-- TODO: keep this aligned with the submit button and keep it 
-                 from submitting the form; only go back to profile
-                <a style="text-decoration: none;" href="{{ url_for('user', username=form.data.username) }}">
-                    <button class="btn btn-outline-success">Back to {{ form.data.username }}</button></a> -->
-            </p>
+            </div>
         </form>
+        <div>
+            <a href="{{ url_for('user', username=form.data.username) }}" style="text-decoration: none;">
+               Back to Profile
+            </a>
+        </div>
     </div>
 {% endblock content %}
