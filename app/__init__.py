@@ -67,11 +67,11 @@ if not blog.debug:
     blog.logger.addHandler(file_handler)
 
     blog.logger.setLevel(logging.INFO)
-    blog.logger.info('Microblog Starting ...')
+    blog.logger.info(_('Microblog Starting ...'))
     
     # dump app config
     config_dict = {key: value for key, value in blog.config.items()}
-    blog.logger.info(f"App Config: {config_dict}")
+    blog.logger.info(_("App Config: %(config)s", config=config_dict))
 
 # import here to avoid circular dependencies
 from app import routes, models, errors

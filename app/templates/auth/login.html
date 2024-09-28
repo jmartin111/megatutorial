@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="sign-in">
-        <h1>Sign In</h1>
+        <h1>{{ _('Sign In') }}</h1>
         <form action="" method="post" novalidate>
             {{ form.hidden_tag() }}
             <p>
@@ -23,7 +23,7 @@
             <div class="sign-in-submit">
                 <p>{{ form.submit() }}</p>
                 <p style="font-size: 0.75em; align-items: right;">
-                    <a class="btn btn-outline-info" href="{{ url_for('register') }}">Register</a>
+                    <a class="btn btn-outline-info" href="{{ url_for('register') }}">{{ _('Register') }}</a>
                 </p>
             </div>
         </form>

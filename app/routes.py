@@ -167,7 +167,7 @@ def follow(username):
     if form.validate_on_submit:
         user = db.session.scalar(sa.select(User).where(User.username == username))
         if user is None:
-            flash(f'User {username} not found!' 'alert-warning')
+            flash(_('User %(user)s not found!', user=username), 'alert-warning')
             return redirect(url_for('index'))
         if user == current_user:
             flash(_('You cannot follow yourself, you halibut'), 'alert-warning')
@@ -187,7 +187,7 @@ def unfollow(username):
     if form.validate_on_submit:
         user = db.session.scalar(sa.select(User).where(User.username == username))
         if user is None:
-            flash(f'User {username} not found' 'alert-warning')
+            flash(_('User %(user)s not found!', user=username), 'alert-warning')
             return redirect(url_for('index'))
         if user == current_user:
             flash(_('You cannot unfollow yourself!'), 'alert-warning')

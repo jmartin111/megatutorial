@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>An Unexpected Error Has Occured</h1>
+    <h1>{{ _('An Unexpected Error Has Occured') }}</h1>
     <div style="display: flex; align-items: center;">
-        <p style="margin-right: 10px;">Your digital overlord has been notified.</p>
+        <p style="margin-right: 10px;">{{ _('Your digital overlord has been notified.') }}</p>
         <span style="color: red">GOOD LUCK</span>
     </div>
-    <p><a href="{{ url_for('index') }}">Home</a></p>
+    <p><a href="{{ url_for('index') }}">{{ _('Home') }}</a></p>
 {% endblock content %}

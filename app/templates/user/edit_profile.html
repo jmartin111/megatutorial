@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="edit-profile">
-        <h1>Edit Profile</h1>
+        <h1>{{ _('Edit Profile') }}</h1>
         <form action="" method="post">
             {{ form.hidden_tag() }}
             <p>
@@ -22,9 +22,9 @@
             <p>
                 {{ form.submit() }} 
                 <!-- TODO: keep this aligned with the submit button and keep it 
-                 from submitting the form; only go back to profile
+                 from submitting the form; only go back to profile  -->
                 <a style="text-decoration: none;" href="{{ url_for('user', username=form.data.username) }}">
-                    <button class="btn btn-outline-success">Back to {{ form.data.username }}</button></a> -->
+                    <button class="btn btn-outline-success">Back to {{ form.data.username }}</button></a>
             </p>
         </form>
     </div>
