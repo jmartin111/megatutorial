@@ -1,9 +1,15 @@
 <div class="post">
-    <img src="{{ post.author.avatar(36) }}" alt="{{ post.author.username }}'s avatar">
-        <div class="post-content">
+    <div class="post-container">
+        <div class="post-thumbnail">
             <a href="{{ url_for('user', username=post.author.username) }}">
-                <b>{{ post.author.username }}</b>
+                <img style="border-radius: 10px;" src="{{ post.author.avatar(36) }}" alt="{{ post.author.username }}'s avatar">
             </a>
-            {{ post.body }}
         </div>
+        <div class="post-body">
+            <p>
+                <span class="badge bg-danger" style="padding-bottom: 2px;">{{ post.author.username }}</span>
+            </p>
+            <div>{{ post.body }}</div>
+        </div>
+    </div>
 </div>

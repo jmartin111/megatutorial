@@ -1,6 +1,7 @@
 #! .venv/bin/python
 
 from datetime import datetime, timezone
+from math import e
 from turtle import title
 
 from flask_migrate import current
@@ -16,6 +17,20 @@ from app.models import User, Post
 from urllib.parse import urlsplit
 
 POSTS_PER_PAGE = blog.config['POSTS_PER_PAGE']
+
+def build_pagination(posts):    
+     return {
+        'prev_page': posts.prev_num,
+        'next_page': posts.next_num,
+        'has_prev': posts.has_prev ,
+        'has_next': posts.has_next,
+        'curr_page': posts.page,
+        'num_pages': posts.pages,
+    }
+
+@blog.template_filter('username_or_none')
+def username_or_none(user):
+    return user.username if user else None
 
 @blog.before_request
 def before_request():
@@ -39,16 +54,17 @@ def index():
     page = request.args.get('page', 1, type=int)
     posts = db.paginate(current_user.following_posts(), page=page, per_page=POSTS_PER_PAGE, error_out=False)
     
-    # build paginatinon
-    first_page = url_for('index', page=posts.first)
-    prev_page = url_for('index', page=posts.per_page) if posts.has_prev else None
-    next_page = url_for('index', page=posts.next_num) if posts.has_next else None
-    last_page = url_for('index', page=posts.last)
-    num_pages = [p+1 for p in range(posts.pages)]
+    # build pagination - << Page N of N >> looking thing
+    pg_object = build_pagination(posts)
     
     return render_template('index.html', title='Home', posts=posts.items, form=form,
-                            first_page=first_page, last_page=last_page,
-                            prev_page=prev_page, next_page=next_page, num_pages=num_pages)
+                            prev_page=pg_object['prev_page'],
+                            next_page=pg_object['next_page'],
+                            has_prev=pg_object['has_prev'],
+                            has_next=pg_object['has_next'],
+                            curr_page=pg_object['curr_page'],
+                            num_pages=pg_object['num_pages']
+                            )
 
 
 @blog.route('/register', methods=['GET', 'POST'])
@@ -93,10 +109,25 @@ def login():
 @login_required
 def user(username):
     user = db.first_or_404(sa.select(User).where(User.username == username))
-    posts = db.session.scalars(sa.select(Post).where(Post.author == user).order_by(Post.timestamp.desc()))
+    posts = db.paginate(sa.select(Post).where(Post.author == user).order_by(Post.timestamp.desc()),
+                        page=1, per_page=POSTS_PER_PAGE, error_out=False)
+    
+    page = request.args.get('page', 1, type=int)
+    query = sa.select(Post).where(Post.author == user).order_by(Post.timestamp.desc())
+    posts = db.paginate(query, page=page, per_page=POSTS_PER_PAGE, error_out=False)
 
     form = FollowForm()
-    return render_template('user/user.html', title='Profile', user=user, posts=posts, form=form)
+
+    pg_object = build_pagination(posts)
+
+    return render_template('user/user.html', title='Profile', user=user, posts=posts, form=form, 
+                           prev_page=pg_object['prev_page'],
+                           next_page=pg_object['next_page'],
+                           has_prev=pg_object['has_prev'],
+                           has_next=pg_object['has_next'],
+                           curr_page=pg_object['curr_page'],
+                           num_pages=pg_object['num_pages']
+                           )
 
 
 @blog.route('/edit_profile', methods=['GET', 'POST'])
@@ -177,17 +208,17 @@ def explore():
     query = sa.select(Post).order_by(Post.timestamp.desc())
     posts = db.paginate(query, page=page, per_page=POSTS_PER_PAGE+2, error_out=False)
 
-    # build pagination
-    first_page = url_for('index', page=posts.first)
-    prev_page = url_for('index', page=posts.prev_num) if posts.has_prev else None
-    next_page = url_for('index', page=posts.next_num) if posts.has_next else None
-    last_page = url_for('index', page=posts.last)
-    num_pages = [p+1 for p in range(posts.pages)]
-
+    # build pagination - << Page N of N >> looking thing
+    pg_object = build_pagination(posts)
 
     return render_template('explore.html', title='Explore', posts=posts.items,
-                            first_page=first_page, last_page=last_page,
-                            prev_page=prev_page, next_page=next_page, num_pages=num_pages)
+                            prev_page=pg_object['prev_page'],
+                            next_page=pg_object['next_page'],
+                            has_prev=pg_object['has_prev'],
+                            has_next=pg_object['has_next'],
+                            curr_page=pg_object['curr_page'],
+                            num_pages=pg_object['num_pages']
+                            )
 
 
 @blog.route('/logout')
