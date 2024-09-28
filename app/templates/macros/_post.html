@@ -8,6 +8,7 @@
         <div class="post-body">
             <p>
                 <span class="badge bg-danger" style="padding-bottom: 2px;">{{ post.author.username }}</span>
+                <span style="font-size: 0.8em;">{{ moment(post.timestamp).fromNow() }}</span>
             </p>
             <div>{{ post.body }}</div>
         </div>

@@ -9,6 +9,7 @@ from flask_login import LoginManager
 import json
 import os
 
+from flask_moment import Moment
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 
@@ -23,6 +24,7 @@ db = SQLAlchemy(blog)
 migrate = Migrate(blog, db)
 loginmgr = LoginManager(blog)
 loginmgr.login_view = 'login'
+moment = Moment(blog)
 
 if not blog.debug:
     # mail server config
