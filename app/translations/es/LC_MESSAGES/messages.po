@@ -1,0 +1,185 @@
+# Spanish translations for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-09-28 12:33-0700\n"
+"PO-Revision-Date: 2024-09-28 12:36-0700\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es\n"
+"Language-Team: es <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: app/__init__.py:35
+msgid "Please login to access this page"
+msgstr "Por favor, inicie sesión para acceder a esta página"
+
+#: app/__init__.py:70
+msgid "Microblog Starting ..."
+msgstr "Iniciando Microblog ..."
+
+#: app/__init__.py:74
+#, python-format
+msgid "App Config: %(config)s"
+msgstr "Configuración de la aplicación: %(config)s"
+
+#: app/forms.py:15 app/forms.py:39 app/forms.py:55
+msgid "Username"
+msgstr "Nombre de usuario"
+
+#: app/forms.py:16
+msgid "Email"
+msgstr "Correo electrónico"
+
+#: app/forms.py:17 app/forms.py:56
+msgid "Password"
+msgstr "Contraseña"
+
+#: app/forms.py:19
+msgid "Confirm Password"
+msgstr "Confirmar contraseña"
+
+#: app/forms.py:21 app/templates/auth/login.html:26
+#: app/templates/auth/register.html:5
+msgid "Register"
+msgstr "Registrarse"
+
+#: app/forms.py:28
+#, python-format
+msgid "Username %(username)s exists. Select something else"
+msgstr "El nombre de usuario %(username)s ya existe. Elija otro"
+
+#: app/forms.py:36
+#, python-format
+msgid "Email %(email)s exists. Select comething else"
+msgstr "El correo electrónico %(email)s ya existe. Elija otro"
+
+#: app/forms.py:40
+msgid "About me"
+msgstr "Sobre mí"
+
+#: app/forms.py:41
+msgid "Submit"
+msgstr "Enviar"
+
+#: app/forms.py:52
+msgid "Please use a different username."
+msgstr "Por favor, use un nombre de usuario diferente."
+
+#: app/forms.py:57
+msgid "Remember Me"
+msgstr "Recordarme"
+
+#: app/forms.py:58 app/templates/auth/login.html:5
+msgid "Sign In"
+msgstr "Iniciar sesión"
+
+#: app/forms.py:61
+msgid "Follow"
+msgstr "Seguir"
+
+#: app/forms.py:72
+msgid "Post"
+msgstr "Publicar"
+
+#: app/routes.py:50 app/routes.py:157
+msgid "Your post has been submitted"
+msgstr "Tu publicación ha sido enviada"
+
+#: app/routes.py:79
+#, python-format
+msgid "User %(user)s successfully registered"
+msgstr "Usuario %(user)s registrado con éxito"
+
+#: app/routes.py:96
+msgid "Invalid username or password"
+msgstr "Nombre de usuario o contraseña inválidos"
+
+#: app/routes.py:140
+msgid "Your changes have been saved."
+msgstr "Tus cambios han sido guardados."
+
+#: app/routes.py:170 app/routes.py:190
+#, python-format
+msgid "User %(user)s not found!"
+msgstr "¡Usuario %(user)s no encontrado!"
+
+#: app/routes.py:173
+msgid "You cannot follow yourself, you halibut"
+msgstr "No puedes seguirte a ti mismo, so tonto"
+
+#: app/routes.py:177
+#, python-format
+msgid "You are following %(user)s"
+msgstr "Ahora estás siguiendo a %(user)s"
+
+#: app/routes.py:193
+msgid "You cannot unfollow yourself!"
+msgstr "¡No puedes dejar de seguirte a ti mismo!"
+
+#: app/routes.py:197
+#, python-format
+msgid "You are no longer following %(user)s."
+msgstr "Ya no estás siguiendo a %(user)s."
+
+#: app/templates/base.html:20
+msgid "Loblog"
+msgstr "Loblog"
+
+#: app/templates/explore.html:4 app/templates/macros/_new_post_form.html:5
+#, python-format
+msgid "Hey, %(username)s"
+msgstr "Hola, %(username)s"
+
+#: app/templates/errors/404.html:4
+msgid "Nothing To See Here"
+msgstr "No hay nada que ver aquí"
+
+#: app/templates/errors/500.html:4
+msgid "An Unexpected Error Has Occured"
+msgstr "Ha ocurrido un error inesperado"
+
+#: app/templates/errors/500.html:6
+msgid "Your digital overlord has been notified."
+msgstr "Tu señor digital ha sido notificado."
+
+#: app/templates/errors/500.html:9
+msgid "Home"
+msgstr "Inicio"
+
+#: app/templates/macros/_new_post_form.html:6
+#, python-format
+msgid "User avatar for %(user)s"
+msgstr "Avatar de usuario para %(user)s"
+
+#: app/templates/macros/_post.html:6 app/templates/user/user.html:13
+#, python-format
+msgid "%(user)s avatar"
+msgstr "Avatar de %(user)s"
+
+#: app/templates/user/edit_profile.html:5
+msgid "Edit Profile"
+msgstr "Editar perfil"
+
+#: app/templates/user/user.html:42
+#, python-format
+msgid "Last seen on: %(date)s"
+msgstr "Última vez visto: %(date)s"
+
+#: app/templates/user/user.html:44
+#, python-format
+msgid "Followed by: %(followers)s"
+msgstr "Seguido por: %(followers)s"
+
+#: app/templates/user/user.html:45
+#, python-format
+msgid "Following: %(following)s"
+msgstr "Siguiendo: %(following)s"

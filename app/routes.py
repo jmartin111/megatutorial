@@ -4,6 +4,8 @@ from datetime import datetime, timezone
 
 import sqlalchemy as sa
 
+from flask_babel import _
+
 from flask import render_template, flash, redirect, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 
@@ -45,7 +47,7 @@ def index():
         post = Post(body=form.post.data, author=current_user)
         db.session.add(post)
         db.session.commit()
-        flash('Your post has been submitted', 'alert-success')
+        flash(_('Your post has been submitted'), 'alert-success')
         return redirect(url_for('index'))
     
     page = request.args.get('page', 1, type=int)
@@ -74,7 +76,7 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash(f'User {user.username} successfully registered', 'alert-success')
+        flash(_('User %(user)s successfully registered', user=user.username), 'alert-success')
         return redirect(url_for('login'))
     return render_template('auth/register.html', title='Register', form=form)
 
@@ -91,7 +93,7 @@ def login():
             )
         if user is None or not user.check_password(form.password.data):
             # falied login
-            flash('Invalid username or password', 'alert-danger')
+            flash(_('Invalid username or password'), 'alert-danger')
             return redirect(url_for('login'))
         # user checks out
         login_user(user, remember=form.remember_me.data)
@@ -135,7 +137,7 @@ def edit_profile():
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
         db.session.commit()
-        flash('Your changes have been saved.', 'alert-success')
+        flash(_('Your changes have been saved.'), 'alert-success')
         return redirect(url_for('edit_profile'))
     elif request.method == 'GET':
         form.username.data = current_user.username
@@ -152,7 +154,7 @@ def new_post():
         post = Post(body=form.post.data, author=current_user)
         db.session.add(post)
         db.session.commit()
-        flash('Your post has been submitted', 'alert-success')
+        flash(_('Your post has been submitted'), 'alert-success')
         return redirect(url_for('user', username=current_user.username))
     
     return render_template('user/new_post.html', title='New Post', form=form)
@@ -165,14 +167,14 @@ def follow(username):
     if form.validate_on_submit:
         user = db.session.scalar(sa.select(User).where(User.username == username))
         if user is None:
-            flash(f'User {username} not found!' 'alert-warning')
+            flash(_('User %(user)s not found!', user=username), 'alert-warning')
             return redirect(url_for('index'))
         if user == current_user:
-            flash('You cannot follow yourself, you halibut', 'alert-warning')
+            flash(_('You cannot follow yourself, you halibut'), 'alert-warning')
             return redirect(url_for('user', username=username))
         current_user.follow(user)
         db.session.commit()
-        flash(f'You are following {username}', 'alert-success')
+        flash(_('You are following %(user)s', user=username), 'alert-success')
         return redirect(url_for('user', username=username))
     else:
         return redirect(url_for('index'))
@@ -185,14 +187,14 @@ def unfollow(username):
     if form.validate_on_submit:
         user = db.session.scalar(sa.select(User).where(User.username == username))
         if user is None:
-            flash(f'User {username} not found' 'alert-warning')
+            flash(_('User %(user)s not found!', user=username), 'alert-warning')
             return redirect(url_for('index'))
         if user == current_user:
-            flash('You cannot unfollow yourself!' 'alert-warning')
+            flash(_('You cannot unfollow yourself!'), 'alert-warning')
             return redirect(url_for('user', username==username))
         current_user.unfollow(user)
         db.session.commit()
-        flash(f'You are not following {username}.', 'alert-success')
+        flash(_('You are no longer following %(user)s.', user=username), 'alert-success')
         return redirect(url_for('user', username=username))
     else:
         return redirect(url_for('index'))

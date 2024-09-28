@@ -2,8 +2,8 @@
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <div class="user-greeting">
-            <h1>Hi {{ current_user.username }}</h1>
-            <span style="padding-top: 8px;"><img src="{{ current_user.avatar(32) }}" alt="User avatar for {{ current_user.username }}"></span>
+            <h1>{{ _('Hey, %(username)s', username=current_user.username) }}</h1>
+            <span style="padding-top: 8px;"><img src="{{ current_user.avatar(32) }}" alt="{{ _('User avatar for %(user)s', user=current_user.username) }}"></span>
         </div>
         <p>
             {{ form.post(cols=48, rows=3) }}<br>

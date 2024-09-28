@@ -1,19 +1,26 @@
 #! .venv/bin/python3
 
 from datetime import timedelta
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 
-import json
 import os
 
+from flask import request
 from flask_moment import Moment
+from flask_babel import Babel, _, lazy_gettext as _l
+
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 
 from config import BlogConfig, DevBlogConfig
+
+def get_locale():
+    # return request.accept_languages.best_match(blog.config['LANGUAGES'])
+    return 'es'
 
 # define and config the app
 blog = Flask(__name__)
@@ -22,9 +29,15 @@ blog.config.from_object(BlogConfig)
 # register extensions
 db = SQLAlchemy(blog)
 migrate = Migrate(blog, db)
+
+# login
 loginmgr = LoginManager(blog)
 loginmgr.login_view = 'login'
+loginmgr.login_message = _l('Please login to access this page')
+
+# time and language
 moment = Moment(blog)
+babel = Babel(blog, locale_selector=get_locale)
 
 if not blog.debug:
     # mail server config
@@ -55,11 +68,11 @@ if not blog.debug:
     blog.logger.addHandler(file_handler)
 
     blog.logger.setLevel(logging.INFO)
-    blog.logger.info('Microblog Starting ...')
+    blog.logger.info(_('Microblog Starting ...'))
     
     # dump app config
     config_dict = {key: value for key, value in blog.config.items()}
-    blog.logger.info(f"App Config: {config_dict}")
+    blog.logger.info(_("App Config: %(config)s", config=config_dict))
 
 # import here to avoid circular dependencies
 from app import routes, models, errors

@@ -2,11 +2,12 @@
     <div class="post-container">
         <div class="post-thumbnail">
             <a href="{{ url_for('user', username=post.author.username) }}">
-                <img style="border-radius: 10px;" src="{{ post.author.avatar(36) }}" alt="{{ post.author.username }}'s avatar">
+                <img style="border-radius: 10px;" src="{{ post.author.avatar(36) }}" 
+                    alt="{{ _('%(user)s avatar', user=post.author.username) }}">
             </a>
         </div>
         <div class="post-body">
-            <p>
+            <p> 
                 <span class="badge bg-danger" style="padding-bottom: 2px;">{{ post.author.username }}</span>
                 <span style="font-size: 0.8em;">{{ moment(post.timestamp).fromNow() }}</span>
             </p>
