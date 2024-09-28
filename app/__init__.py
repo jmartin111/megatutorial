@@ -1,19 +1,25 @@
 #! .venv/bin/python3
 
 from datetime import timedelta
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 
-import json
 import os
 
+from flask import request
 from flask_moment import Moment
+from flask_babel import Babel, _
+
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 
 from config import BlogConfig, DevBlogConfig
+
+def get_locale():
+    return request.accept_languages.best_match(blog.config['LANGUAGES'])
 
 # define and config the app
 blog = Flask(__name__)
@@ -22,9 +28,15 @@ blog.config.from_object(BlogConfig)
 # register extensions
 db = SQLAlchemy(blog)
 migrate = Migrate(blog, db)
+
+# login
 loginmgr = LoginManager(blog)
 loginmgr.login_view = 'login'
+loginmgr.login_message = _('PLease login to access this page')
+
+# time and language
 moment = Moment(blog)
+babel = Babel(blog, locale_selector=get_locale)
 
 if not blog.debug:
     # mail server config
