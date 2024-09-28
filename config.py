@@ -23,7 +23,7 @@ class BlogConfig:
     POSTS_PER_PAGE = 3  # max amount for most dense pages
 
     # babel
-    LANGUAGES = ['en-US', 'en-GB', 'es']
+    LANGUAGES = ['en_US', 'en_GB', 'es']
 
 class DevBlogConfig(BlogConfig):
     DEBUG_LEVEL = os.environ.get('DEBUG_LEVEL')

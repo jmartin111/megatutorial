@@ -11,7 +11,7 @@ import os
 
 from flask import request
 from flask_moment import Moment
-from flask_babel import Babel, _
+from flask_babel import Babel, _, lazy_gettext as _l
 
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
@@ -19,7 +19,8 @@ from logging.handlers import SMTPHandler, RotatingFileHandler
 from config import BlogConfig, DevBlogConfig
 
 def get_locale():
-    return request.accept_languages.best_match(blog.config['LANGUAGES'])
+    # return request.accept_languages.best_match(blog.config['LANGUAGES'])
+    return 'es'
 
 # define and config the app
 blog = Flask(__name__)
@@ -32,7 +33,7 @@ migrate = Migrate(blog, db)
 # login
 loginmgr = LoginManager(blog)
 loginmgr.login_view = 'login'
-loginmgr.login_message = _('PLease login to access this page')
+loginmgr.login_message = _l('Please login to access this page')
 
 # time and language
 moment = Moment(blog)
