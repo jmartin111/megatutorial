@@ -19,8 +19,7 @@ from logging.handlers import SMTPHandler, RotatingFileHandler
 from config import BlogConfig, DevBlogConfig
 
 def get_locale():
-    # return request.accept_languages.best_match(blog.config['LANGUAGES'])
-    return 'es'
+    return request.accept_languages.best_match(blog.config['LANGUAGES'])
 
 # define and config the app
 blog = Flask(__name__)

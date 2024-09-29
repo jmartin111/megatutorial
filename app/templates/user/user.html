@@ -13,22 +13,22 @@
                 <img src="{{ user.avatar(64) }}" alt="{{ _('%(user)s avatar', user=user.username ) }}">
                     <div class="user-controls">
                         {% if user == current_user %}
-                            <a style="text-decoration: none;" href="{{ url_for('new_post') }}"><button class="btn btn-sm btn-outline-success">New Post</button></a>
-                            <a style="text-decoration: none;" href="{{ url_for('edit_profile') }}"><button class="btn btn-sm btn-outline-info">Edit Profile</button></a>
+                            <a style="text-decoration: none;" href="{{ url_for('new_post') }}"><button class="btn btn-sm btn-outline-success">{{ _('New Post') }}</button></a>
+                            <a style="text-decoration: none;" href="{{ url_for('edit_profile') }}"><button class="btn btn-sm btn-outline-info">{{ _('Edit Profile') }}</button></a>
                             <button id="delete_profile"
                                     class="btn btn-sm btn-outline-danger"
                                     onclick="deleteMe('ARE YOU SURE? \nTodo: make this a modal')">
-                                    Delete Profile
+                                    {{ _('Delete Profile') }}
                             </button>
                         {% elif not current_user.is_following(user) %}
                             <form action="{{ url_for('follow', username=user.username) }}" method="post">
                                 {{ form.hidden_tag() }}
-                                {{ form.submit(value='Follow') }}
+                                {{ form.submit(value=_('Follow')) }}
                             </form>
                         {% else %}
                             <form action="{{ url_for('unfollow', username=user.username) }}" method="post">
                                 {{ form.hidden_tag() }}
-                                {{ form.submit(value='Unfollow') }}
+                                {{ form.submit(value=_('Unfollow')) }}
                             </form>
                         {% endif %}
                     </div>
