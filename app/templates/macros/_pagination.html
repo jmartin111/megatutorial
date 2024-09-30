@@ -1,7 +1,7 @@
     <div class="pagination-container">
             <div class="pagination-item">
-                {% if has_prev %}
-                    <a href="{{ url_for(request.endpoint, username=user|username_or_none, page=prev_page) }}">
+                {% if pg['has_prev'] %}
+                    <a href="{{ url_for(request.endpoint, username=user|username_or_none, page=pg['prev_page']) }}">
                         <i class="bi bi-caret-left-fill" style="font-size: 2rem; color: rgb(7, 7, 173)"></i>
                     </a>
                 {% else %}
@@ -10,11 +10,11 @@
                 {% endif %}
             </div>
         <div class="badge bg-dark">
-            {{ _('Page') }} {{ curr_page }} {{ _('of') }} {{ num_pages }}
+            {{ _('Page') }} {{ pg['curr_page'] }} {{ _('of') }} {{ pg['num_pages'] }}
         </div>
             <div class="pagination-item">
-                {% if has_next %}
-                    <a href="{{ url_for(request.endpoint, username=user|username_or_none, page=next_page) }}">
+                {% if pg['has_next'] %}
+                    <a href="{{ url_for(request.endpoint, username=user|username_or_none, page=pg['next_page']) }}">
                         <i class="bi bi-caret-right-fill" style="font-size: 2rem; color: rgb(7, 7, 113)"></i>
                     </a>
                 {% else %}

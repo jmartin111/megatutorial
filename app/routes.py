@@ -1,17 +1,19 @@
 #! .venv/bin/python
 
+from crypt import methods
 from datetime import datetime, timezone
-
+from langdetect import detect, LangDetectException
 import sqlalchemy as sa
 
 from flask_babel import _
 
-from flask import render_template, flash, redirect, request, url_for
+from flask import render_template, flash, redirect, request, url_for, g
 from flask_login import current_user, login_required, login_user, logout_user
 
-from app import blog, db
+from app import blog, db, get_locale
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, FollowForm, PostForm
 from app.models import User, Post 
+from app.translate import Translate
 
 from urllib.parse import urlsplit
 
@@ -37,6 +39,8 @@ def before_request():
         current_user.last_seen = datetime.now(timezone.utc)
         db.session.commit()
 
+    g.locale = str(get_locale())
+
 
 @blog.route('/', methods=['GET', 'POST'])
 @blog.route('/index', methods=['GET', 'POST'])
@@ -44,7 +48,12 @@ def before_request():
 def index():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(body=form.post.data, author=current_user)
+        try:
+            language = detect(form.post.data)
+        except LangDetectException:
+            language = ''
+            blog.logger.debug('Post language not detected')
+        post = Post(body=form.post.data, author=current_user, language=language)
         db.session.add(post)
         db.session.commit()
         flash(_('Your post has been submitted'), 'alert-success')
@@ -56,14 +65,7 @@ def index():
     # build pagination - << Page N of N >> looking thing
     pg_object = build_pagination(posts)
     
-    return render_template('index.html', title='Home', posts=posts.items, form=form,
-                            prev_page=pg_object['prev_page'],
-                            next_page=pg_object['next_page'],
-                            has_prev=pg_object['has_prev'],
-                            has_next=pg_object['has_next'],
-                            curr_page=pg_object['curr_page'],
-                            num_pages=pg_object['num_pages']
-                            )
+    return render_template('index.html', title='Home', posts=posts.items, form=form, pg=pg_object)
 
 
 @blog.route('/register', methods=['GET', 'POST'])
@@ -119,14 +121,8 @@ def user(username):
 
     pg_object = build_pagination(posts)
 
-    return render_template('user/user.html', title='Profile', user=user, posts=posts, form=form, 
-                           prev_page=pg_object['prev_page'],
-                           next_page=pg_object['next_page'],
-                           has_prev=pg_object['has_prev'],
-                           has_next=pg_object['has_next'],
-                           curr_page=pg_object['curr_page'],
-                           num_pages=pg_object['num_pages']
-                           )
+    return render_template('user/user.html', title='Profile', 
+                           user=user, posts=posts, form=form, pg=pg_object)
 
 
 @blog.route('/edit_profile', methods=['GET', 'POST'])
@@ -151,7 +147,11 @@ def edit_profile():
 def new_post():
     form = PostForm()
     if form.validate_on_submit():
-        post = Post(body=form.post.data, author=current_user)
+        try:
+            language = detect(form.post.data)
+        except LangDetectException:
+            language = ''
+        post = Post(body=form.post.data, author=current_user, language=language)
         db.session.add(post)
         db.session.commit()
         flash(_('Your post has been submitted'), 'alert-success')
@@ -210,14 +210,15 @@ def explore():
     # build pagination - << Page N of N >> looking thing
     pg_object = build_pagination(posts)
 
-    return render_template('explore.html', title='Explore', posts=posts.items,
-                            prev_page=pg_object['prev_page'],
-                            next_page=pg_object['next_page'],
-                            has_prev=pg_object['has_prev'],
-                            has_next=pg_object['has_next'],
-                            curr_page=pg_object['curr_page'],
-                            num_pages=pg_object['num_pages']
-                            )
+    return render_template('explore.html', title='Explore', posts=posts.items, pg=pg_object)
+
+@blog.route('/translate', methods=['POST'])
+@login_required
+def translate():
+    data = request.get_json()
+    return {'text': Translate(data['phrase'],
+                              data['target_lang']
+                              ).http_translate()}
 
 
 @blog.route('/logout')

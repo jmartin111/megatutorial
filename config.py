@@ -6,6 +6,8 @@ basedir = os.path.abspath(os.path.join(os.path.dirname(__name__), 'instance'))
 class BlogConfig:
     # main
     SECRET_KEY = os.environ.get('SECRET_KEY')
+    G_API_KEY = os.environ.get('G_API_KEY')
+    GOOGLE_APPLICATION_CREDENTIALS = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
     FLASK_RUN_PORT = os.environ.get('FLASK_RUN_PORT')
     FLASK_ENV = os.environ.get('FLASK_ENV')
@@ -23,7 +25,7 @@ class BlogConfig:
     POSTS_PER_PAGE = 3  # max amount for most dense pages
 
     # babel
-    LANGUAGES = ['en_US', 'en_GB', 'es']
+    LANGUAGES = ['en', 'es', 'de']
 
 class DevBlogConfig(BlogConfig):
     DEBUG_LEVEL = os.environ.get('DEBUG_LEVEL')

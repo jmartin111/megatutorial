@@ -11,7 +11,19 @@
                 <span class="badge bg-danger" style="padding-bottom: 2px;">{{ post.author.username }}</span>
                 <span style="font-size: 0.8em;">{{ moment(post.timestamp).fromNow() }}</span>
             </p>
-            <div>{{ post.body }}</div>
+            <div>
+                <span id="post{{ post.id }}">{{ post.body }}</span>
+                {% if post.language and post.language != g.locale %}
+                    {{ post.language }}/{{ g.locale }}
+                    <span id="translation{{ post.id }}">
+                        <a href="javascript:translate(
+                                    'post{{ post.id }}',
+                                    'translation{{ post.id }}',
+                                    '{{ post.language }}',
+                                    '{{ g.locale }}');">{{ _('Translate') }}</a>
+                    </span>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
