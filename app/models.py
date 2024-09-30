@@ -1,4 +1,4 @@
-#! .venv/bin/python
+#!.venv/bin/python3
 
 import sqlalchemy as sa
 import sqlalchemy.orm as so

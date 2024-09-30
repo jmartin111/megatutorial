@@ -1,4 +1,4 @@
-#! .venv/bin/python
+#!.venv/bin/python3
 
 def get_posts(user):
     return [

@@ -14,7 +14,7 @@
                     <div class="user-controls">
                         {% if user == current_user %}
                             <a style="text-decoration: none;" href="{{ url_for('new_post') }}"><button class="btn btn-sm btn-outline-success">{{ _('New Post') }}</button></a>
-                            <a style="text-decoration: none;" href="{{ url_for('edit_profile') }}"><button class="btn btn-sm btn-outline-info">{{ _('Edit Profile') }}</button></a>
+                            <a style="text-decoration: none;" href="{{ url_for('user.edit_profile') }}"><button class="btn btn-sm btn-outline-info">{{ _('Edit Profile') }}</button></a>
                             <button id="delete_profile"
                                     class="btn btn-sm btn-outline-danger"
                                     onclick="deleteMe('ARE YOU SURE? \nTodo: make this a modal')">

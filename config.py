@@ -1,4 +1,4 @@
-#! .venv/bin/python
+#!.venv/bin/python3
 
 import os
 basedir = os.path.abspath(os.path.join(os.path.dirname(__name__), 'instance'))

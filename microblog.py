@@ -1,14 +1,16 @@
-#! .venv/bin/python
+#!.venv/bin/python3
 
 import os
 
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 
-from app import blog, db
+from app import create_app, db
 from app.models import User, Post
 
-@blog.shell_context_processor
+app = create_app()
+
+@app.shell_context_processor
 def make_shell_context():
     return {
         'os': os,

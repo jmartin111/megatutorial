@@ -1,4 +1,4 @@
-#! .venv/bin/python
+#!.venv/bin/python3
 
 from flask import request
 import requests
