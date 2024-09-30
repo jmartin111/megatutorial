@@ -54,8 +54,7 @@ class Translate():
 
         my_data = {
         "q": [self.phrase],
-        "source_lang": self.source_lang,
-        "target_lang": self.target_lang
+        "target": self.target_lang
         }
 
         payload = json.dumps(my_data)
@@ -67,6 +66,7 @@ class Translate():
         response = requests.post(url, headers=headers, data=payload)
 
         if response.status_code != 200:
-            return _('The translation service failed')
+            # return _('The translation service failed')
+            return payload
 
         return response.json()['data']['translations'][0]['translatedText']
