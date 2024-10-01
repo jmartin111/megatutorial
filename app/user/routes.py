@@ -6,7 +6,7 @@ from flask_babel import _
 
 import sqlalchemy as sa
 
-from app import db, build_pagination, POSTS_PER_PAGE
+from app import db, build_pagination, get_posts_per_page
 from app.user import bp
 from app.user.forms import EditProfileForm, FollowForm
 
@@ -17,11 +17,11 @@ from app.models import User, Post
 def user(username):
     user = db.first_or_404(sa.select(User).where(User.username == username))
     posts = db.paginate(sa.select(Post).where(Post.author == user).order_by(Post.timestamp.desc()),
-                        page=1, per_page=POSTS_PER_PAGE, error_out=False)
+                        page=1, per_page=get_posts_per_page(), error_out=False)
     
     page = request.args.get('page', 1, type=int)
     query = sa.select(Post).where(Post.author == user).order_by(Post.timestamp.desc())
-    posts = db.paginate(query, page=page, per_page=POSTS_PER_PAGE, error_out=False)
+    posts = db.paginate(query, page=page, per_page=get_posts_per_page(), error_out=False)
 
     form = FollowForm()
 

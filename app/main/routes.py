@@ -6,19 +6,19 @@ import sqlalchemy as sa
 
 from flask_babel import _
 
-from flask import render_template, flash, redirect, request, url_for, g
+from flask import current_app, render_template, flash, redirect, request, url_for, g
 from flask_login import current_user, login_required
 
 from app.main import bp
 
-from app import POSTS_PER_PAGE, blog, build_pagination, db, get_locale
+from app import get_posts_per_page, build_pagination, db, get_locale
 from app.main.forms import PostForm
 from app.models import Post 
 from app.translate import Translate
 
 from urllib.parse import urlsplit
 
-@bp.template_filter('username_or_none')
+@bp.app_template_filter('username_or_none')
 def username_or_none(user):
     return user.username if user else None
 
@@ -41,7 +41,7 @@ def index():
             language = detect(form.post.data)
         except LangDetectException:
             language = ''
-            blog.logger.debug('Post language not detected')
+            current_app.logger.debug('Post language not detected')
         post = Post(body=form.post.data, author=current_user, language=language)
         db.session.add(post)
         db.session.commit()
@@ -49,7 +49,7 @@ def index():
         return redirect(url_for('main.index'))
     
     page = request.args.get('page', 1, type=int)
-    posts = db.paginate(current_user.following_posts(), page=page, per_page=POSTS_PER_PAGE, error_out=False)
+    posts = db.paginate(current_user.following_posts(), page=page, per_page=get_posts_per_page(), error_out=False)
     
     # build pagination - << Page N of N >> looking thing
     pg_object = build_pagination(posts)
@@ -72,7 +72,7 @@ def new_post():
         flash(_('Your post has been submitted'), 'alert-success')
         return redirect(url_for('user.user', username=current_user.username))
     
-    return render_template('user/new_post.html', title='New Post', form=form)
+    return render_template('new_post.html', title='New Post', form=form)
     
 
 @bp.route('/explore', methods=['GET'])
@@ -80,7 +80,7 @@ def new_post():
 def explore():
     page = request.args.get('page', 1, type=int)
     query = sa.select(Post).order_by(Post.timestamp.desc())
-    posts = db.paginate(query, page=page, per_page=POSTS_PER_PAGE+2, error_out=False)
+    posts = db.paginate(query, page=page, per_page=get_posts_per_page()+2, error_out=False)
 
     # build pagination - << Page N of N >> looking thing
     pg_object = build_pagination(posts)

@@ -1,6 +1,6 @@
 #!.venv/bin/python3
 
-from flask import request
+from flask import current_app
 import requests
 from . import *
 from app import blog
@@ -11,7 +11,7 @@ class ErrorsTest(unittest.TestCase):
    
     def setUp(self):
         self.app_context = setup_test_environment()
-        self.client = blog.test_client()  # Create a test client
+        self.client = current_app.test_client()  # Create a test client
 
     def tearDown(self):
         teardown_test_environment(self.app_context)

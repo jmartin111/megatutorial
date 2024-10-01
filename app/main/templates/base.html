@@ -33,7 +33,7 @@
               {% if current_user.is_anonymous %}
               <a class="btn btn-outline-info" id="logout" href="{{ url_for('auth.login') }}">{{ _('Sign In') }}</a>
               {% else %}
-                <a class="btn btn-outline-info" id="logout" href="{{ url_for('logout') }}">{{ _('Sign Out') }}</a>
+                <a class="btn btn-outline-info" id="logout" href="{{ url_for('auth.logout') }}">{{ _('Sign Out') }}</a>
               {% endif %}
             </div>
             <br>

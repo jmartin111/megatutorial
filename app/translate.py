@@ -2,13 +2,12 @@
 
 import requests
 import json
-import os
+
+from flask import current_app
 
 from flask_babel import _
 from dotenv import load_dotenv
 from google.cloud import translate_v2 as translate
-
-from app import blog
 
 load_dotenv()
 
@@ -44,7 +43,7 @@ class Translate():
         return result
     
     def http_translate(self):
-        key = blog.config['G_API_KEY']
+        key = current_app.config['G_API_KEY']
         # key = os.environ.get('G_API_KEY')
 
         if not key: 
