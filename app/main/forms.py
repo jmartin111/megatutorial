@@ -21,3 +21,6 @@ class PostForm(FlaskForm):
                              'placeholder': 'Make your mark ...'
                         })
     submit = SubmitField(_l('Post'), render_kw={'class': 'btn btn-outline-success'})
+
+class EmptyForm(FlaskForm):
+    submit = SubmitField('Submit')

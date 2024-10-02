@@ -10,9 +10,10 @@ from flask import current_app, render_template, flash, redirect, request, url_fo
 from flask_login import current_user, login_required
 
 from app.main import bp
+from app.models import User
 
 from app import get_posts_per_page, build_pagination, db, get_locale
-from app.main.forms import PostForm
+from app.main.forms import PostForm, EmptyForm
 from app.models import Post 
 from app.translate import Translate
 
@@ -97,3 +98,9 @@ def translate():
 
 
 
+@bp.route('user/<username>/popup')
+@login_required
+def user_popup(username):
+    user = db.first_or_404(sa.select(User).where(User.username == username))
+    form = EmptyForm()
+    return render_template('user_popup.html', user=user, form=form)

@@ -1,0 +1,46 @@
+<div class="profile-container">
+    <div class="user-info">
+        <div class="user-profile-stack">
+            <img src="{{ user.avatar(64) }}" alt="{{ _('%(user)s avatar', user=user.username ) }}">
+                <div class="user-controls">
+                    {% if user == current_user %}
+                        <a style="text-decoration: none;" href="{{ url_for('main.new_post') }}"><button class="btn btn-sm btn-outline-success">{{ _('New Post') }}</button></a>
+                        <a style="text-decoration: none;" href="{{ url_for('user.edit_profile') }}"><button class="btn btn-sm btn-outline-info">{{ _('Edit Profile') }}</button></a>
+                        <button id="delete_profile"
+                                class="btn btn-sm btn-outline-danger"
+                                onclick="deleteMe('ARE YOU SURE? \nTodo: make this a modal')">
+                                {{ _('Delete Profile') }}
+                        </button>
+                    {% elif not current_user.is_following(user) %}
+                        <form action="{{ url_for('user.follow', username=user.username) }}" method="post">
+                            {{ form.hidden_tag() }}
+                            {{ form.submit(value=_('Follow')) }}
+                        </form>
+                    {% else %}
+                        <form action="{{ url_for('user.unfollow', username=user.username) }}" method="post">
+                            {{ form.hidden_tag() }}
+                            {{ form.submit(value=_('Unfollow')) }}
+                        </form>
+                    {% endif %}
+                </div>
+        </div>
+        <div class="user-details">
+            <h3>{{ user.username }}</h3>
+            {% if user.about_me %}
+                <p>{{ user.about_me }}</p>
+            {% endif %}
+            {% if user.last_seen %}
+                <p>{{ _("Last seen on: %(date)s", date=moment(user.last_seen).format('LLL')) }}</p>
+            {% endif %}
+            <p>{{ _("Followed by: %(followers)s", followers=user.followers_count()) }}<br>
+                {{ _("Following: %(following)s", following=user.following_count()) }}
+            </p>
+        </div>
+    </div>
+    <div class="posts-section">
+        {% for post in posts %}
+            {% include 'macros/_post.html' %}
+        {% endfor %}
+    </div>
+</div>
+{% include 'macros/_pagination.html' %}

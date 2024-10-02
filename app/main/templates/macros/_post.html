@@ -1,7 +1,7 @@
 <div class="post">
     <div class="post-container">
         <div class="post-thumbnail">
-            <a href="{{ url_for('user.user', username=post.author.username) }}">
+            <a class="user-popup" href="{{ url_for('user.user', username=post.author.username) }}">
                 <img style="border-radius: 10px;" src="{{ post.author.avatar(36) }}" 
                     alt="{{ _('%(user)s avatar', user=post.author.username) }}">
             </a>
